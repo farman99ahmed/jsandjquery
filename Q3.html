@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>JQuery Assignment</title>
+    <style type="text/css">
+        div.card
+        {
+            width: 700px;
+            height: 150px;
+            margin: 30px;
+            display: none;
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+            background: -webkit-linear-gradient(to right, #f7797d, #FBD786, #C6FFDD);
+            background: linear-gradient(to right, #f7797d, #FBD786, #C6FFDD);
+            }
+    
+        div.card:hover{
+            border: 2px solid red;
+            background: -webkit-linear-gradient(to right, #FFAFBD, #C9FFBF); 
+            background: linear-gradient(to right, #FFAFBD, #C9FFBF);
+
+        }
+        
+    </style>
+</head>
+
+<body>
+    <div id="loader">
+    <div class="comments" style="border: 1px solid green;padding:1rem;margin-bottom: 0.5rem;">
+    </div>    
+    <button id="load">Load Data</button>
+    </div>
+
+    <div class="cards" id="cards"></div>
+
+    <script>
+        $("#load").on("click", function(){
+            $("#loader").hide();
+            var payload = {
+                "url": "https://jsonplaceholder.typicode.com/posts",
+                "method": "GET",
+                "timeout": 0,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+            };
+
+            $.ajax(payload).done(function (items) {
+                var cid = $("#cards");
+                var counter = 1;
+                for (var item of items){
+                    var id = "card" + counter;
+                    var markup = `<div class="card" id="${id}"><h2>${item['title']}</h2><p>${item['body']}</p></div>`;
+                    $(cid).append(markup);
+                    $("#" + id).show(500 * counter);
+                    counter++;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
